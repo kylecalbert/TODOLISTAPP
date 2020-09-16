@@ -1,0 +1,39 @@
+from flask import Flask, render_template,request,redirect,url_for
+
+from flask_mysqldb import MySQL
+import requests
+import secrets
+
+app = Flask(__name__)
+app.config['MYSQL_USER'] =secrets.MYSQL_USER
+app.config['MYSQL_PASSWORD'] = secrets.MYSQL_PASSWORD
+app.config['MYSQL_HOST'] = secrets.MYSQL_HOST
+app.config['MYSQL_DB'] = secrets.MYSQL_DB
+MYSQL_CURSORCLASS = 'DictCursor' #returns data as dictionary
+
+
+mysql = MySQL(app)
+
+
+@app.route('/')
+def index():
+    #line below used to create table
+    #cur.execute('''CREATE TABLE tasks_table(id Integer PRIMARY KEY AUTO_INCREMENT, text VARCHAR(100),complete BOOLEAN)''')
+    return render_template('base.html')
+
+
+
+@app.route("/add", methods=["POST"])
+def add_task():
+    title = request.form.get('title')
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO tasks_table (text,complete) VALUES(%s,%s)", [title,False])
+    mysql.connection.commit()
+    print(title)
+    return redirect(url_for("index"))
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
