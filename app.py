@@ -1,4 +1,6 @@
-from flask import Flask, render_template,request,redirect,url_for
+import json
+
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 from flask_mysqldb import MySQL
 import requests
@@ -17,9 +19,12 @@ mysql = MySQL(app)
 
 @app.route('/')
 def index():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM tasks_table")
+    tasks_table = cur.fetchall()
     #line below used to create table
     #cur.execute('''CREATE TABLE tasks_table(id Integer PRIMARY KEY AUTO_INCREMENT, text VARCHAR(100),complete BOOLEAN)''')
-    return render_template('base.html')
+    return render_template('base.html',tasks_table =tasks_table)
 
 
 
@@ -32,6 +37,11 @@ def add_task():
     print(title)
     return redirect(url_for("index"))
 
+
+@app.route("/delete/<id>", )
+def delete():
+    cur = mysql.connection.cursor()
+    #cur.execute("DELETE FROM tasks_table where id ="+id)
 
 
 if __name__ == '__main__':

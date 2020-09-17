@@ -19,5 +19,16 @@
 </div>
 
 </form>
+    coolio
+{% for tasks in tasks_table %}
+    <p>{{tasks[0] }} | {{tasks[1]}}</p>
+    {% if tasks[2]== False %}
+    <span> Not Completed</span>
+    {% else %}
+    <span>Completed</span>>
+    {% endif %}
+    <a href="">Update</a>
+    <a href="">Delete</a>
+{% endfor %}
 </body>
 </html>
