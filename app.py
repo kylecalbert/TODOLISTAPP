@@ -38,10 +38,12 @@ def add_task():
     return redirect(url_for("index"))
 
 
-@app.route("/delete/<id>", )
-def delete():
+@app.route("/delete/<id>")
+def delete(id):
     cur = mysql.connection.cursor()
-    #cur.execute("DELETE FROM tasks_table where id ="+id)
+    cur.execute("DELETE FROM tasks_table where id ="+id)
+    mysql.connection.commit()
+    return redirect(url_for("index"))
 
 
 if __name__ == '__main__':
