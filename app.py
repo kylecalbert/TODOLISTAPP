@@ -48,7 +48,7 @@ def delete(id):
 @app.route("/update/<id>")
 def update(id):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE tasks_table SET complete = %s where id = "+id, [True])
+    cur.execute("UPDATE tasks_table SET complete = %s where id = " + id, [True])
     mysql.connection.commit()
     return redirect(url_for("index"))
 
